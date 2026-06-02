@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>iPhone 15 Pro Avatar Customizer</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Desktop Interactive Workspace Wrapper -->
+  <div class="desktop-wrapper">
+    
+    <!-- Top creative branding -->
+    <div class="desktop-header">
+      <h1>3D Avatar Studio</h1>
+      <p>iPhone 14 & 15 Pro 기준 그리드로 맞춤 렌더링된 프리미엄 아바타 스튜디오</p>
+    </div>
+
+    <!-- iPhone 1 물리 베젤 시뮬레이터 -->
+    <div class="iphone-frame">
+      <!-- Physical Side Buttons -->
+      <div class="iphone-btn volume-up" onclick="playBeep(600, 'sine', 0.05)"></div>
+      <div class="iphone-btn volume-down" onclick="playBeep(450, 'sine', 0.05)"></div>
+      <div class="iphone-btn power" id="btn-power-toggle"></div>
+
+      <!-- Screen Container -->
+      <div class="screen-container" id="screen-viewport">
+        
+        <!-- Dynamic Island Interactive Notch -->
+        <div class="dynamic-island" id="dynamic-island">
+          <div class="dynamic-island-content" id="dynamic-island-msg">Sound Haptic ON</div>
+        </div>
+
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+          <span class="time" id="status-time">09:41</span>
+          <div class="status-icons">
+            <!-- Cellular Signal -->
+            <svg viewBox="0 0 18 12">
+              <rect x="0" y="8" width="2.5" height="4" rx="0.5" />
+              <rect x="3.8" y="6" width="2.5" height="6" rx="0.5" />
+              <rect x="7.6" y="4" width="2.5" height="8" rx="0.5" />
+              <rect x="11.4" y="2" width="2.5" height="10" rx="0.5" />
+              <rect x="15.2" y="0" width="2.5" height="12" rx="0.5" />
+            </svg>
+            <!-- Wi-Fi Icon -->
+            <svg viewBox="0 0 16 12">
+              <path d="M8 12a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm-4.5-5.5a6.36 6.36 0 0 1 9 0 .75.75 0 1 0 1.06-1.06 7.86 7.86 0 0 0-11.12 0 .75.75 0 1 0 1.06 1.06zm-2-2a9.19 9.19 0 0 1 13 0 .75.75 0 1 0 1.06-1.06 10.69 10.69 0 0 0-15.12 0 .75.75 0 1 0 1.06 1.06z" />
+            </svg>
+            <!-- Battery Icon -->
+            <svg viewBox="0 0 22 12">
+              <rect x="1" y="1" width="17" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1" />
+              <rect x="3" y="3" width="13" height="6" rx="1.5" />
+              <path d="M20 4v4" stroke="currentColor" stroke-width="1" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+
+        <!-- iOS Header -->
+        <header class="app-header">
+          <button class="back-btn" id="btn-reset-avatar" aria-label="돌아가기">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M15 19L8 12L15 5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button class="done-btn" id="btn-done">완료</button>
+        </header>
+
+        <!-- Character Preview Area -->
+        <div class="character-window">
+          <!-- Live Viewport (zoomed dynamically via classes .zoom-bust / .zoom-full) -->
+          <div class="character-viewport zoom-bust" id="character-viewport">
+            
+            <!-- Live Constructed Character SVG -->
+            <svg id="avatar-svg" class="avatar-svg" viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg">
+              <!-- Reusable Defs, Shaders, Gradients -->
+              <defs>
+                <!-- Shadows -->
+                <filter id="shadow-soft" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.1" />
+                </filter>
+                <filter id="shadow-accessory" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#000" flood-opacity="0.15" />
+                </filter>
+                <filter id="shadow-cross-arms" x="-10%" y="-10%" width="120%" height="120%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.12" />
+                </filter>
+                
+                <!-- Skin shading gradients (Updated dynamically) -->
+                <radialGradient id="grad-face" cx="50%" cy="40%" r="50%">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#000" stop-opacity="0.08"/>
+                </radialGradient>
+                
+                <!-- Hair gradients -->
+                <linearGradient id="grad-hair" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#fff" stop-opacity="0.15" />
+                  <stop offset="100%" stop-color="#000" stop-opacity="0.2" />
+                </linearGradient>
+
+                <!-- Clothes highlight -->
+                <linearGradient id="grad-highlight" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2"/>
+                  <stop offset="50%" stop-color="#ffffff" stop-opacity="0"/>
+                  <stop offset="100%" stop-color="#000000" stop-opacity="0.1"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Floor Drop Shadow -->
+              <ellipse cx="160" cy="365" rx="60" ry="10" class="avatar-shadow" />
+
+              <!-- Breathing Core Character Group -->
+              <g class="avatar-group" id="avatar-breath-group">
+                
+                <!-- 1. BACK HAIR (for high hairstyles/ponytails) -->
+                <g id="layer-back-hair"></g>
+                
+                <!-- 2. BODY PARTS & Postures -->
+                <g id="layer-body"></g>
+
+                <!-- 3. HEAD & FACE BASE -->
+                <g id="layer-head-neck">
+                  <!-- Neck (Dynamic fill skin-color) -->
+                  <path id="svg-neck" d="M142,192 C142,212 178,212 178,192 L178,165 L142,165 Z" fill="var(--skin-color)" />
+                  <path d="M142,192 C142,212 178,212 178,192 L178,165 L142,165 Z" fill="url(#grad-face)" />
+                  
+                  <!-- Ears (Dynamic fill skin-color) -->
+                  <ellipse id="svg-ear-l" cx="106" cy="148" rx="10" ry="12" fill="var(--skin-color)" />
+                  <ellipse id="svg-ear-r" cx="214" cy="148" rx="10" ry="12" fill="var(--skin-color)" />
+                  
+                  <!-- Head Circle (Dynamic fill skin-color) -->
+                  <circle id="svg-head-base" cx="160" cy="146" r="48" fill="var(--skin-color)" />
+                  <circle cx="160" cy="146" r="48" fill="url(#grad-face)" />
+                  
+                  <!-- Nose -->
+                  <ellipse id="svg-nose" cx="160" cy="148" rx="6" ry="7" fill="var(--skin-color)" opacity="0.95" filter="drop-shadow(0 2px 2px rgba(0,0,0,0.06))" />
+                  <circle cx="158" cy="146" r="2" fill="#fff" opacity="0.3" /> <!-- Nose highlight -->
+                  
+                  <!-- Cheeks blush (soft pink blushes) -->
+                  <circle cx="122" cy="158" r="7" fill="#ff6b6b" opacity="0.22" />
+                  <circle cx="198" cy="158" r="7" fill="#ff6b6b" opacity="0.22" />
+                </g>
+
+                <!-- 4. FACE FEATURES (Eyes, Mouth, Eyebrows) -->
+                <g id="layer-face-features"></g>
+
+                <!-- 5. FRONT HAIR -->
+                <g id="layer-front-hair"></g>
+
+                <!-- 6. CLOTHES & JERSEY DETAILS -->
+                <g id="layer-clothes"></g>
+
+                <!-- 7. ACCESSORIES LAYER (Glasses, Caps, beanies, headphones) -->
+                <g id="layer-accessories" filter="url(#shadow-accessory)"></g>
+
+              </g>
+            </svg>
+            
+          </div>
+        </div>
+
+        <!-- Customizer Panel -->
+        <div class="control-panel">
+          <!-- 4 Category Tab Navigation -->
+          <nav class="tab-navbar">
+            <button class="tab-btn active" data-tab="face">얼굴</button>
+            <button class="tab-btn" data-tab="hair">머리</button>
+            <button class="tab-btn" data-tab="clothes">옷</button>
+            <button class="tab-btn" data-tab="accessory">악세사리</button>
+            <!-- Sliding black underline -->
+            <div class="tab-underline" id="tab-underline"></div>
+          </nav>
+
+          <!-- Preset & Custom Color Picker row -->
+          <div class="colors-row" id="colors-row">
+            <!-- Populated dynamically via javascript -->
+          </div>
+          <!-- Hidden Native Color Picker trigger -->
+          <input type="color" id="native-color-picker" class="hidden-color-picker" value="#ffd8b3">
+
+          <!-- Option Grid view -->
+          <div class="options-viewport">
+            <div class="options-grid" id="options-grid">
+              <!-- Populated dynamically via javascript -->
+            </div>
+          </div>
+
+        </div>
+
+        <!-- iOS Bottom indicator -->
+        <div class="home-indicator"></div>
+
+      </div>
+
+      <!-- Celebration Overlay screen -->
+      <div class="celebration-overlay" id="celebration-screen">
+        <div class="celebration-card">
+          <div class="celebration-title">아바타 완성! ✨</div>
+          <div class="celebration-subtitle">완벽하게 디자인된 나만의 3D 아바타가 저장되었습니다.</div>
+          
+          <div class="celebration-viewport" id="celebration-avatar-view">
+            <!-- Will clone finished SVG to preview -->
+          </div>
+          
+          <button class="celebration-close-btn" id="btn-celebration-close">편집 돌아가기</button>
+        </div>
+        <!-- Colorful dynamic particles cascade canvas -->
+        <canvas id="confetti-canvas"></canvas>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

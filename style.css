@@ -1,0 +1,652 @@
+/*
+ * Avatar Customizer - iPhone 14/15 Pro Edition
+ * Highly Premium Stylesheet with Spring Animations, Hover Micro-interactions, and iOS Native Design
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-accent: 'Outfit', sans-serif;
+  
+  /* System Colors */
+  --bg-app: #ffffff;
+  --bg-secondary: #f2f2f7;
+  --bg-card: #f2f2f7;
+  --bg-card-selected: #7c7c80; /* dark grey in screenshot */
+  --border-color: #e5e5ea;
+  --text-primary: #000000;
+  --text-secondary: #8e8e93;
+  --accent-color: #007aff;
+  
+  /* Avatar Dynamic Properties (controlled via JS) */
+  --skin-color: #ffd8b3;
+  --hair-color: #1a1a1a;
+  
+  /* Spring Transition Timing */
+  --spring-transition: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-duration: 0.5s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: radial-gradient(circle at center, #1e1e2f 0%, #0d0d14 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+/* Desktop App Container */
+.desktop-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  perspective: 1000px;
+}
+
+.desktop-header {
+  text-align: center;
+  margin-bottom: 5px;
+  animation: fadeInDown 0.8s var(--spring-transition);
+}
+
+.desktop-header h1 {
+  font-family: var(--font-accent);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ff7e5f 0%, #feb47b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.desktop-header p {
+  color: #8e8e93;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+/* iPhone 14/15 Pro Physical Bezel Mockup */
+.iphone-frame {
+  width: 393px;
+  height: 852px;
+  background: #1c1c1e;
+  border-radius: 54px;
+  padding: 12px;
+  box-shadow: 
+    0px 25px 50px -12px rgba(0, 0, 0, 0.7),
+    0px 0px 0px 4px #48484a,
+    inset 0px 0px 0px 2px #2c2c2e;
+  position: relative;
+  transition: transform 0.6s var(--spring-transition);
+  transform-style: preserve-3d;
+  animation: floatBezel 6s ease-in-out infinite;
+}
+
+.iphone-frame:hover {
+  transform: rotateY(3deg) rotateX(1deg);
+}
+
+/* Simulated Side Buttons */
+.iphone-btn {
+  position: absolute;
+  background: #3a3a3c;
+  border-radius: 4px;
+  left: -4px;
+  width: 4px;
+}
+.iphone-btn.volume-up {
+  top: 170px;
+  height: 50px;
+}
+.iphone-btn.volume-down {
+  top: 230px;
+  height: 50px;
+}
+.iphone-btn.power {
+  left: auto;
+  right: -4px;
+  top: 200px;
+  height: 75px;
+}
+
+/* Screen Content Container */
+.screen-container {
+  width: 100%;
+  height: 100%;
+  background: var(--bg-app);
+  border-radius: 42px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+}
+
+/* Dynamic Island Mockup */
+.dynamic-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 30px;
+  background: #000000;
+  border-radius: 20px;
+  z-index: 9999;
+  transition: all 0.5s var(--spring-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.dynamic-island:hover {
+  width: 150px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.dynamic-island::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle, #101018 30%, #000 70%);
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.dynamic-island-content {
+  color: #fff;
+  font-size: 10px;
+  font-family: var(--font-accent);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.dynamic-island:hover .dynamic-island-content {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* iOS Bottom Home Indicator Bar */
+.home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 134px;
+  height: 5px;
+  background: #000000;
+  border-radius: 3px;
+  z-index: 9998;
+}
+
+/* iOS Status Bar */
+.status-bar {
+  height: 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 28px 8px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  background: transparent;
+  position: relative;
+  z-index: 100;
+}
+
+.status-bar .time {
+  font-family: var(--font-primary);
+}
+
+.status-bar .status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-bar svg {
+  height: 12px;
+  fill: var(--text-primary);
+}
+
+/* App Header */
+.app-header {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.back-btn:active {
+  background: #f2f2f7;
+}
+
+.back-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: #000;
+  stroke-width: 2.2;
+}
+
+.done-btn {
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  transition: all 0.2s var(--spring-transition);
+}
+
+.done-btn:active {
+  transform: scale(0.95);
+  background: #f2f2f7;
+}
+
+/* Character Customizer Viewport Layer */
+.character-window {
+  flex: 1.1; /* slightly larger view height */
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
+  overflow: hidden;
+  background: transparent;
+  padding-bottom: 10px;
+}
+
+/* Camera viewport with zoom transitions */
+.character-viewport {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.3, 1.2); /* elegant custom camera spring */
+  transform-origin: center 40%;
+}
+
+/* Bust view zoom configuration */
+.character-viewport.zoom-bust {
+  transform: scale(1.68) translateY(90px);
+}
+
+/* Full body zoom configuration */
+.character-viewport.zoom-full {
+  transform: scale(1.0) translateY(0);
+}
+
+/* Avatar Canvas Drawing style */
+.avatar-svg {
+  width: 320px;
+  height: 380px;
+  filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
+}
+
+/* Shadows and elements within SVG */
+.avatar-shadow {
+  fill: rgba(0, 0, 0, 0.08);
+  transition: opacity 0.5s ease;
+}
+
+.character-viewport.zoom-bust .avatar-shadow {
+  opacity: 0; /* hide floor shadow when zoomed in */
+}
+
+/* Interactive custom animation trigger styles inside SVG */
+.animate-scale {
+  transform-origin: center bottom;
+  animation: optionApply 0.55s var(--spring-transition);
+}
+
+@keyframes optionApply {
+  0% { transform: scale(0.92); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.animate-spring-head {
+  transform-origin: center 180px;
+  animation: headSpring 0.6s var(--spring-transition);
+}
+
+@keyframes headSpring {
+  0% { transform: rotate(0deg) scale(0.9); }
+  35% { transform: rotate(-5deg) scale(1.05); }
+  65% { transform: rotate(4deg) scale(0.98); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+/* Breathing animation for high-end look */
+.avatar-group {
+  animation: breathing 4.5s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+@keyframes breathing {
+  0%, 100% { transform: translateY(0px) scaleY(1); }
+  50% { transform: translateY(-4px) scaleY(1.008); }
+}
+
+/* Eyes Blinking animation */
+.avatar-eye-standard {
+  animation: eyeBlink 5s infinite;
+}
+
+@keyframes eyeBlink {
+  0%, 96%, 100% { transform: scaleY(1); }
+  98% { transform: scaleY(0.1); }
+}
+
+/* Bottom customization controls panel */
+.control-panel {
+  flex: 0.9;
+  background: #ffffff;
+  border-top: 1px solid var(--border-color);
+  box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 20;
+}
+
+/* Tab menu */
+.tab-navbar {
+  height: 48px;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid var(--border-color);
+  position: relative;
+}
+
+.tab-btn {
+  flex: 1;
+  border: none;
+  background: none;
+  font-family: var(--font-primary);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  outline: none;
+}
+
+.tab-btn.active {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Absolute sliding accent line for tabs */
+.tab-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 25%;
+  background: #000000;
+  transition: transform 0.38s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: left;
+}
+
+/* Colors palette row */
+.colors-row {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  overflow-x: auto;
+  border-bottom: 1px solid #f2f2f7;
+  scrollbar-width: none; /* hidden for premium layout */
+}
+
+.colors-row::-webkit-scrollbar {
+  display: none;
+}
+
+/* Rainbow color circle styling */
+.color-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.25s var(--spring-transition);
+  position: relative;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.color-circle.rainbow {
+  background: conic-gradient(
+    #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000
+  );
+}
+
+.color-circle:hover {
+  transform: scale(1.08);
+}
+
+.color-circle.active {
+  transform: scale(1.15);
+  box-shadow: inset 0 0 0 3px #ffffff, 0 0 0 1px #8e8e93; /* double-ring exact border */
+}
+
+/* Hidden system color picker */
+.hidden-color-picker {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Scrollable customize grid options container */
+.options-viewport {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  scrollbar-width: none;
+  background: #fafafa;
+}
+
+.options-viewport::-webkit-scrollbar {
+  display: none;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-bottom: 30px; /* offset home bar */
+}
+
+/* Grid option cards style */
+.option-card {
+  aspect-ratio: 1;
+  background: var(--bg-card);
+  border-radius: 18px;
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.option-card svg {
+  width: 100%;
+  height: 100%;
+  max-width: 72px;
+  max-height: 72px;
+  transition: transform 0.4s var(--spring-transition);
+}
+
+.option-card:hover {
+  background: #e5e5ea;
+}
+
+.option-card:hover svg {
+  transform: scale(1.08);
+}
+
+.option-card.selected {
+  background: var(--bg-card-selected);
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.1);
+}
+
+.option-card.selected svg {
+  transform: scale(1.05);
+}
+
+/* Celebration Overlay */
+.celebration-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.95);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.celebration-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.celebration-card {
+  width: 85%;
+  background: #ffffff;
+  border-radius: 32px;
+  padding: 30px 24px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  text-align: center;
+  transform: translateY(40px) scale(0.9);
+  transition: all 0.6s var(--spring-transition);
+}
+
+.celebration-overlay.active .celebration-card {
+  transform: translateY(0) scale(1);
+}
+
+.celebration-title {
+  font-family: var(--font-accent);
+  font-size: 22px;
+  font-weight: 800;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.celebration-subtitle {
+  font-size: 13px;
+  color: #8e8e93;
+  margin-bottom: 24px;
+}
+
+.celebration-viewport {
+  width: 100%;
+  height: 200px;
+  background: #f2f2f7;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.celebration-viewport svg {
+  width: 170px;
+  height: 200px;
+  transform: scale(0.9);
+}
+
+.celebration-close-btn {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  width: 100%;
+  height: 48px;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.celebration-close-btn:active {
+  transform: scale(0.96);
+  background: #222;
+}
+
+/* Confetti canvas */
+#confetti-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10001;
+}
+
+/* Floating animation for frame bezel */
+@keyframes floatBezel {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
